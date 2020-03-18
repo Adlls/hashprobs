@@ -5,11 +5,11 @@
      var hasht: Array<Long?> = arrayOfNulls(SIZE)
      for (i in 0..hasht.size - 1) hasht[i] = EMPTY
 
-     fun hashofKey(v: Long): Long = v % SIZE
+     fun hashofKey(v: Long): Int = (v % SIZE).toInt()
 
      fun problin(v: Long) {
          var dv = v
-         var probK = hashofKey(dv).toInt()
+         var probK = hashofKey(dv)
          val stateProb = probK
          while (true) {
              if (hasht[probK] == EMPTY) {
@@ -17,16 +17,30 @@
                  break
              }
              dv++
-             probK = hashofKey(dv).toInt()
+             probK = hashofKey(dv)
              if (probK == stateProb) break
+
          }
      }
 
      fun probqua(v: Long) {
+         var dk = 0
+         var probK = hashofKey(v)
+         while (true) {
+             var temp_key = probK + dk*dk
+             if (temp_key >= hasht.size) break
+             if (hasht[temp_key] == EMPTY) {
+                 hasht[temp_key] = v
+                 break
+             }
+             dk++
 
+         }
      }
 
-     fun add(v: Long) {
+
+
+     fun addlin(v: Long) {
          problin(v)
      }
 
@@ -34,13 +48,26 @@
         if (hasht[key] != EMPTY) hasht[key] = REMOVE
      }
 
-     add(1)
-     add(3)
-     add(4)
-     add(4)
-     add(1)
-     add(23)
+     fun addqua(v: Long) {
+         probqua(v)
+     }
+
+
+     /*
+     addlin(3)
+     addlin(4)
+     addlin(4)
+     addlin(1)
+     addlin(1)
+     addlin(23)
      remove(3)
+     */
+
+     addqua(0)
+     addqua(0)
+     addqua(0)
+     addqua(0)
+     addqua(0)
 
      for (item in hasht) {
          println(item)
